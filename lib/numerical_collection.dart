@@ -6,8 +6,8 @@ class NumericalList implements List<num> {
 
   List<num> _elems ;
   
-  NumericalList() {
-    _elems = [] ;
+  NumericalList([int initialSize]) {
+    _elems = initialSize == null ? null : new List(initialSize) ;
   }
   
   NumericalList.fromList( List<num> l ) {
@@ -209,6 +209,48 @@ class NumericalList implements List<num> {
   
   ///////////////////////////////////////////
   
+  int binarySearch(num key) => NumericalTools.binarySearch(_elems, key) ;
+  
+  void insertSorted(num val) {
+    
+    int idx = binarySearch(val) ;
+    
+    if (idx >= 0) {
+      _elems.insert(idx , val) ;
+    }
+    else {
+      _elems.insert( (-idx)-1 , val) ;
+    }
+    
+  }
+  
+  void insertSortedCheckEnd(num val) {
+    
+    if ( _elems.isEmpty || Comparable.compare( _elems.last , val ) <= 0 ) {
+      _elems.add(val) ;
+    }
+    else {
+      insertSorted(val) ;
+    }
+    
+  }
+  
+  bool insertSortedUnique(num val) {
+    
+    int idx = binarySearch(val) ;
+    
+    if (idx >= 0) {
+      return false ;
+    }
+    else {
+      _elems.insert( (-idx)-1 , val) ;
+      return true ;
+    }
+      
+  }
+  
+  ///////////////////////////////////////////
+  
   num calcMin() => NumericalTools.calcMin(this) ;
   num calcMax() => NumericalTools.calcMax(this) ;
   List<num> calcMinMax() => NumericalTools.calcMinMax(this) ;
@@ -288,6 +330,29 @@ class NumericalTools {
     }
     
     return sum ;
+  }
+  
+  static int binarySearch(List<num> a, int key) {
+    return binarySearchRange(a,0,a.length, key) ;
+  }
+  
+  static int binarySearchRange(List<num> a, int fromIndex, int toIndex, int key) {
+    int low = fromIndex;
+    int high = toIndex - 1;
+
+    while (low <= high) {
+        int mid = (low + high) ~/ 2 ;
+        int midVal = a[mid];
+
+        if (midVal < key)
+            low = mid + 1;
+        else if (midVal > key)
+            high = mid - 1;
+        else
+            return mid; // key found
+    }
+    
+    return -(low + 1);  // key not found.
   }
   
 }
