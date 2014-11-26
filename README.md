@@ -21,6 +21,9 @@ TODO
 CHANGELOG
 ---------
 
+  * version: 0.1.2:
+  Add select methods.
+
   * version: 0.1.1:
   Add insert sorted and binary search.
   

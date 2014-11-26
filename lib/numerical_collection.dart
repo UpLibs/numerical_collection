@@ -10,6 +10,15 @@ class NumericalList implements List<num> {
     _elems = initialSize == null ? null : new List(initialSize) ;
   }
   
+  NumericalList.fromIterator( Iterator<num> iterator ) {
+    _elems = [] ;
+    
+    do {
+      _elems.add( iterator.current ) ;
+    }
+    while ( iterator.moveNext() ) ;
+  }
+  
   NumericalList.fromList( List<num> l ) {
     _elems = new List.from(l) ;
   }
@@ -247,6 +256,27 @@ class NumericalList implements List<num> {
       return true ;
     }
       
+  }
+
+  ///////////////////////////////////////////
+  
+  NumericalList select(num init, num end, [bool uniqueValues = false, bool sortedValues = false]) {
+    NumericalList nl = new NumericalList() ;
+    
+    for (num val in _elems) {
+      if (val >= init && val <= end) {
+        if ( uniqueValues ) {
+          if (sortedValues) nl.insertSortedUnique(val) ;
+          else if ( nl.contains(val) ) nl.add(val) ;
+        }
+        else {
+          if (sortedValues) nl.insertSorted(val) ;
+          else nl.add(val) ;
+        }
+      }
+    }
+    
+    return nl ;
   }
   
   ///////////////////////////////////////////
