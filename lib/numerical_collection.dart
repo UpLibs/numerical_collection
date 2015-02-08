@@ -345,7 +345,8 @@ class NumericalTools {
   }
   
   static num calcMean( List<num> l ) {
-    return calcSum(l) / l.length ;
+    num sum = calcSum(l) ;
+    return sum != null ? (sum / l.length) : null ;
   }
   
   static num calcSum( List<num> l ) {
